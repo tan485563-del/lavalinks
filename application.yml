@@ -12,7 +12,7 @@ lavalink:
   server:
     password: "${LAVALINK_PASSWORD}"
     sources:
-      youtube: false      # disable the built-in (broken) youtube source, we use the plugin instead
+      youtube: false      # disabled — we use the youtube-plugin instead
       bandcamp: true
       soundcloud: true
       twitch: true
@@ -48,21 +48,22 @@ plugins:
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
+    # OAuth requires a TV-style client FIRST. Order matters.
+    # TVHTML5EMBEDDED supports OAuth and doesn't require PO tokens.
     clients:
+      - TVHTML5EMBEDDED
       - MUSIC
       - ANDROID_VR
       - WEB
-      - TVHTML5EMBEDDED
+      - WEBEMBEDDED
     oauth:
       enabled: true
-      # Set via the YOUTUBE_REFRESH_TOKEN environment variable in Railway
-      # rather than hardcoding it here — keeps it out of your committed config.
+      # Set YOUTUBE_REFRESH_TOKEN in Railway → Lavalink service → Variables.
+      # If empty, Lavalink will log a device-code prompt on startup.
       refreshToken: "${YOUTUBE_REFRESH_TOKEN}"
-    # As of Sept 2026, YouTube is rolling out "SABR-only" responses that break
-    # direct stream URL extraction for most clients. A remote cipher server
-    # (https://github.com/kikkia/yt-cipher) is the documented workaround.
-    # This points at the maintainer's free public instance; self-host it
-    # instead if you outgrow the shared rate limit (10 req/sec).
+    # Workaround for YouTube's SABR-only responses that break direct
+    # stream URL extraction. Points at the maintainer's free public instance.
+    # Self-host (https://github.com/kikkia/yt-cipher) if you hit rate limits.
     remoteCipher:
       url: "https://cipher.kikkia.dev/"
       userAgent: "melophiles-bot"
@@ -80,7 +81,7 @@ plugins:
       clientId: "${SPOTIFY_CLIENT_ID}"
       clientSecret: "${SPOTIFY_CLIENT_SECRET}"
       countryCode: "US"
-      playlistLoadLimit: 6     # pages of 100 tracks
+      playlistLoadLimit: 6
       albumLoadLimit: 6
 
 metrics:
@@ -94,7 +95,9 @@ logging:
   level:
     root: INFO
     lavalink: INFO
-    dev.lavalink.youtube.http.YoutubeOauth2Handler: INFO   # shows the OAuth device-login prompt
+    # Set to DEBUG only when troubleshooting OAuth — very chatty.
+    # dev.lavalink.youtube.http.YoutubeOauth2Handler: INFO
+    dev.lavalink.youtube: INFO
   request:
     enabled: true
     includeClientInfo: true
