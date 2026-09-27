@@ -4,9 +4,9 @@ server:
 
 lavalink:
   plugins:
-    - dependency: "dev.lavalink.youtube:youtube-plugin:1.13.3"
+    - dependency: "dev.lavalink.youtube:youtube-plugin:1.18.2"
       repository: "https://maven.lavalink.dev/releases"
-    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.6.1"
+    - dependency: "com.github.topi314.lavasrc:lavasrc-plugin:4.1.1"
       repository: "https://maven.lavalink.dev/releases"
 
   server:
@@ -60,6 +60,14 @@ plugins:
       # After you authorize once, copy the printed refreshToken below
       # and redeploy so it doesn't ask again.
       # refreshToken: "PASTE_YOUR_REFRESH_TOKEN_HERE"
+    # As of Sept 2026, YouTube is rolling out "SABR-only" responses that break
+    # direct stream URL extraction for most clients. A remote cipher server
+    # (https://github.com/kikkia/yt-cipher) is the documented workaround.
+    # This points at the maintainer's free public instance; self-host it
+    # instead if you outgrow the shared rate limit (10 req/sec).
+    remoteCipher:
+      url: "https://cipher.kikkia.dev/"
+      userAgent: "melophiles-bot"
 
   lavasrc:
     providers:
