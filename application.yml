@@ -48,22 +48,17 @@ plugins:
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
-    # OAuth requires a TV-style client FIRST. Order matters.
-    # TVHTML5EMBEDDED supports OAuth and doesn't require PO tokens.
+    # TVHTML5EMBEDDED was removed in 1.18.0 — use TVHTML5_SIMPLY instead.
+    # Clients are queried left-to-right; OAuth clients must come first.
     clients:
-      - TVHTML5EMBEDDED
+      - TVHTML5_SIMPLY
       - MUSIC
       - ANDROID_VR
       - WEB
       - WEBEMBEDDED
     oauth:
       enabled: true
-      # Set YOUTUBE_REFRESH_TOKEN in Railway → Lavalink service → Variables.
-      # If empty, Lavalink will log a device-code prompt on startup.
       refreshToken: "${YOUTUBE_REFRESH_TOKEN}"
-    # Workaround for YouTube's SABR-only responses that break direct
-    # stream URL extraction. Points at the maintainer's free public instance.
-    # Self-host (https://github.com/kikkia/yt-cipher) if you hit rate limits.
     remoteCipher:
       url: "https://cipher.kikkia.dev/"
       userAgent: "melophiles-bot"
