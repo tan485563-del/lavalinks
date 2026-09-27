@@ -55,11 +55,9 @@ plugins:
       - TVHTML5EMBEDDED
     oauth:
       enabled: true
-      # Leave refreshToken commented out for the FIRST boot.
-      # Lavalink will print a device-login URL + code in the deploy logs.
-      # After you authorize once, copy the printed refreshToken below
-      # and redeploy so it doesn't ask again.
-      # refreshToken: "PASTE_YOUR_REFRESH_TOKEN_HERE"
+      # Set via the YOUTUBE_REFRESH_TOKEN environment variable in Railway
+      # rather than hardcoding it here — keeps it out of your committed config.
+      refreshToken: "${YOUTUBE_REFRESH_TOKEN}"
     # As of Sept 2026, YouTube is rolling out "SABR-only" responses that break
     # direct stream URL extraction for most clients. A remote cipher server
     # (https://github.com/kikkia/yt-cipher) is the documented workaround.
