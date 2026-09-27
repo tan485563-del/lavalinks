@@ -48,9 +48,11 @@ plugins:
     allowSearch: true
     allowDirectVideoIds: true
     allowDirectPlaylistIds: true
-    # TVHTML5EMBEDDED was removed in 1.18.0 — use TVHTML5_SIMPLY instead.
-    # Clients are queried left-to-right; OAuth clients must come first.
+    # TV MUST be first — it is the client that actually uses your OAuth token.
+    # Without TV, the plugin logs "OAuth enabled without compatible clients"
+    # and YouTube rejects playback with "Sign in to confirm you're not a bot".
     clients:
+      - TV
       - TVHTML5_SIMPLY
       - MUSIC
       - ANDROID_VR
@@ -90,7 +92,7 @@ logging:
   level:
     root: INFO
     lavalink: INFO
-    # Set to DEBUG only when troubleshooting OAuth — very chatty.
+    # Uncomment only when debugging OAuth — very chatty.
     # dev.lavalink.youtube.http.YoutubeOauth2Handler: INFO
     dev.lavalink.youtube: INFO
   request:
